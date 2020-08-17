@@ -44,6 +44,8 @@ public:
      */
     cv::Mat draw_frame(const bool draw_text = true);
 
+    tracker_state_t get_tracking_state() const;
+
 protected:
     unsigned int draw_initial_points(cv::Mat& img, const std::vector<cv::KeyPoint>& init_keypts,
                                      const std::vector<int>& init_matches, const std::vector<cv::KeyPoint>& curr_keypts,

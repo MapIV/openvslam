@@ -79,6 +79,7 @@ Mat44_t tracking_module::track_monocular_image(const cv::Mat& img, const double 
 
     // color conversion
     img_gray_ = img;
+    img_color_ = img.clone();
     util::convert_to_grayscale(img_gray_, camera_->color_order_);
 
     // create current frame object
@@ -279,27 +280,30 @@ bool tracking_module::initialize() {
 
 bool tracking_module::track_current_frame() {
     bool succeeded = false;
-    if (tracking_state_ == tracker_state_t::Tracking) {
-        // Tracking mode
-        if (velocity_is_valid_ && last_reloc_frm_id_ + 2 < curr_frm_.id_) {
-            // if the motion model is valid
-            succeeded = frame_tracker_.motion_based_track(curr_frm_, last_frm_, velocity_);
-        }
-        if (!succeeded) {
-            succeeded = frame_tracker_.bow_match_based_track(curr_frm_, last_frm_, ref_keyfrm_);
-        }
-        if (!succeeded) {
-            succeeded = frame_tracker_.robust_match_based_track(curr_frm_, last_frm_, ref_keyfrm_);
-        }
+    // if (tracking_state_ == tracker_state_t::Tracking) {
+    // Tracking mode
+    if (velocity_is_valid_ && last_reloc_frm_id_ + 2 < curr_frm_.id_) {
+        // if the motion model is valid
+        succeeded = frame_tracker_.motion_based_track(curr_frm_, last_frm_, velocity_);
     }
-    else {
-        // Lost mode
-        // try to relocalize
-        succeeded = relocalizer_.relocalize(curr_frm_);
-        if (succeeded) {
-            last_reloc_frm_id_ = curr_frm_.id_;
-        }
+    if (!succeeded) {
+        succeeded = frame_tracker_.bow_match_based_track(curr_frm_, last_frm_, ref_keyfrm_);
     }
+    if (!succeeded) {
+        succeeded = frame_tracker_.robust_match_based_track(curr_frm_, last_frm_, ref_keyfrm_);
+    }
+    // }
+    if (tracking_state_ != tracker_state_t::Tracking)
+        std::cout << "\033[35m !!RELOCALIZE IS REQUIRED!! \033[m " << std::endl;
+
+    // else {
+    //     // Lost mode
+    //     // try to relocalize
+    //     succeeded = relocalizer_.relocalize(curr_frm_);
+    //     if (succeeded) {
+    //         last_reloc_frm_id_ = curr_frm_.id_;
+    //     }
+    // }
     return succeeded;
 }
 

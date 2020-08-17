@@ -19,6 +19,10 @@ frame_publisher::~frame_publisher() {
     spdlog::debug("DESTRUCT: publish::frame_publisher");
 }
 
+tracker_state_t frame_publisher::get_tracking_state() const {
+    return tracking_state_;
+}
+
 cv::Mat frame_publisher::draw_frame(const bool draw_text) {
     cv::Mat img;
     tracker_state_t tracking_state;
@@ -183,7 +187,8 @@ void frame_publisher::draw_info_text(cv::Mat& img, const tracker_state_t trackin
 void frame_publisher::update(tracking_module* tracker) {
     std::lock_guard<std::mutex> lock(mtx_);
 
-    tracker->img_gray_.copyTo(img_);
+    // tracker->img_gray_.copyTo(img_);
+    tracker->img_color_.copyTo(img_);
 
     const auto num_curr_keypts = tracker->curr_frm_.num_keypts_;
     curr_keypts_ = tracker->curr_frm_.keypts_;

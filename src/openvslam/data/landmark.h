@@ -107,6 +107,7 @@ public:
     static std::atomic<unsigned int> next_id_;
     unsigned int first_keyfrm_id_ = 0;
     unsigned int num_observations_ = 0;
+    unsigned int last_observed_keyfrm_id_ = 0;
 
     // Variables for frame tracking.
     Vec2_t reproj_in_tracking_;

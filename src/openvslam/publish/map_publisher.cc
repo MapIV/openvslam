@@ -40,5 +40,9 @@ unsigned int map_publisher::get_landmarks(std::vector<data::landmark*>& all_land
     return map_db_->get_num_landmarks();
 }
 
+unsigned int map_publisher::get_max_keyframe_id() {
+    return map_db_->get_max_keyframe_id();
+}
+
 } // namespace publish
 } // namespace openvslam
