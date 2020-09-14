@@ -38,8 +38,9 @@ public:
 
         // undistort
         mat = mat.reshape(2);
-        cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat(), cv_cam_matrix_,
-                            cv::TermCriteria(cv::TermCriteria::EPS | cv::TermCriteria::MAX_ITER, 20, 1e-6));
+        cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat());
+        // cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat(), cv_cam_matrix_,
+        //                     cv::TermCriteria(cv::TermCriteria::EPS | cv::TermCriteria::MAX_ITER, 20, 1e-6));
         mat = mat.reshape(1);
 
         // convert to cv::Mat
