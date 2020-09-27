@@ -112,7 +112,8 @@ void perspective::undistort_keypoints(const std::vector<cv::KeyPoint>& dist_keyp
 
     // undistort
     mat = mat.reshape(2);
-    cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat());
+    cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat(), cv_cam_matrix_);
+    // NOTE: following is available in the version > OpenCV 3.4
     // cv::undistortPoints(mat, mat, cv_cam_matrix_, cv_dist_params_, cv::Mat(), cv_cam_matrix_,
     //                     cv::TermCriteria(cv::TermCriteria::EPS | cv::TermCriteria::MAX_ITER, 20, 1e-6));
     mat = mat.reshape(1);
