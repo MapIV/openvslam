@@ -103,6 +103,8 @@ Mat44_t tracking_module::track_stereo_image(const cv::Mat& left_img_rect, const 
 
     // color conversion
     img_gray_ = left_img_rect;
+    img_color_ = left_img_rect.clone();
+
     cv::Mat right_img_gray = right_img_rect;
     util::convert_to_grayscale(img_gray_, camera_->color_order_);
     util::convert_to_grayscale(right_img_gray, camera_->color_order_);
