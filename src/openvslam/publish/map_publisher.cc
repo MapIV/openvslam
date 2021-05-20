@@ -40,6 +40,12 @@ unsigned int map_publisher::get_landmarks(std::vector<data::landmark*>& all_land
     return map_db_->get_num_landmarks();
 }
 
+unsigned int map_publisher::get_landmarks(std::set<data::landmark*>& local_landmarks) {
+    const auto _local_landmarks = map_db_->get_local_landmarks();
+    local_landmarks = std::set<data::landmark*>(_local_landmarks.begin(), _local_landmarks.end());
+    return map_db_->get_num_landmarks();
+}
+
 unsigned int map_publisher::get_max_keyframe_id() {
     return map_db_->get_max_keyframe_id();
 }

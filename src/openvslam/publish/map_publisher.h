@@ -63,6 +63,12 @@ public:
     unsigned int get_landmarks(std::vector<data::landmark*>& all_landmarks,
                                std::set<data::landmark*>& local_landmarks);
 
+    /**
+     * Get all landmarks and local landmarks
+     * @return local_landmarks
+     */
+    unsigned int get_landmarks(std::set<data::landmark*>& local_landmarks);
+
     unsigned int get_max_keyframe_id();
 
 private:
